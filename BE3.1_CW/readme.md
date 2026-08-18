@@ -57,7 +57,9 @@ Specifies files and folders that should not be uploaded to GitHub, such as `node
 ### 1. Install Dependencies
 
 ```bash
-npm install
+npm init -y
+npm install express
+npm install dotenv
 ```
 
 ### 2. Start the Server
