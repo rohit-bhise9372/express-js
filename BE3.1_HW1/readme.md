@@ -53,15 +53,17 @@ npm install dotenv
 node index.js
 ```
 
-## Available Routes
+### 3. Open the Routes
 
-| Method | URL | Description |
-|---|---|---|
-| GET | `/` | Displays the home page message |
-| GET | `/products` | Displays the products message |
-| GET | `/services` | Displays the services message |
-| GET | `/faq` | Displays the FAQ message |
-| GET | `/gallery` | Displays the gallery message |
+Open the following URLs in your browser:
+
+```text
+http://localhost:3000/
+http://localhost:3000/products
+http://localhost:3000/services
+http://localhost:3000/faq
+http://localhost:3000/gallery
+```
 
 
 ## Author
