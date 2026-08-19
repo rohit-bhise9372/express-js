@@ -24,7 +24,7 @@ const todos = [
 
 
 // 1. GET /
-app.get("/", (requestAnimationFrame, res) => {
+app.get("/", (req, res) => {
   res.send("Hello Express Server!");
 });
 
