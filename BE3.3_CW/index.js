@@ -22,7 +22,7 @@ const cars = [
   { id: 15, make: "Volkswagen", model: "Golf", year: 2022 },
 ];
 
-app.get("/", (requestAnimationFrame, res) => {
+app.get("/", (req, res) => {
     res.send("Hello express!")
 })
 
