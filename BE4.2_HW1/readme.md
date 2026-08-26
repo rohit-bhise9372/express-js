@@ -59,8 +59,6 @@ This project is a backend REST API built using **Node.js**, **Express.js**, **Mo
   }
 }
 
----
-
 ## Project Structure
 
 ```text
@@ -74,8 +72,6 @@ BE2.4_HW2/
 │──package-lock.json
 └── readme.md
 ```
-
----
 
 ## Tech Stack
 
