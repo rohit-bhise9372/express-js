@@ -1,4 +1,4 @@
-# BE2.4_HW3 – Hotel API
+# BE4.2_HW2 – Hotel API
 
 ## PRD Checklist
 
