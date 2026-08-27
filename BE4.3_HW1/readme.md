@@ -37,19 +37,5 @@ This application allows users to manage restaurant information stored in MongoDB
 └── package-lock.json
 ```
 
-## API Endpoints
 
-### Create Restaurant
-
-**POST** `/restaurants`
-
-```json
-{
-  "name": "Somi",
-  "cuisine": ["Greek"],
-  "location": "11 Main Road, Gem",
-  "rating": 4.3,
-  "phoneNumber": "+1234997390"
-}
-```
 
