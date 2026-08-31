@@ -35,44 +35,6 @@ This project provides an API to update existing movie records stored in MongoDB.
 └── package-lock.json
 ```
 
-## Installation
-
-1. Clone the repository
-
-```bash
-git clone <your-github-repository-link>
-```
-
-2. Navigate to the project folder
-
-```bash
-cd movie-update-api
-```
-
-3. Install dependencies
-
-```bash
-npm install
-```
-
-4. Create a `.env` file
-
-```env
-MONGODB=mongodb+srv://your_connection_string
-```
-
-5. Start the server
-
-```bash
-node index.js
-```
-
-Server runs on:
-
-```text
-http://localhost:3000
-```
-
 ## API Endpoint
 
 ### Update Movie
@@ -133,10 +95,6 @@ Use **Postman** to test the endpoint:
 - **Method:** `POST`
 - **URL:** `http://localhost:3000/movies/:movieId`
 - **Body:** Raw → JSON
-
-## GitHub Repository
-
-Add your GitHub repository link here.
 
 ## Author
 
