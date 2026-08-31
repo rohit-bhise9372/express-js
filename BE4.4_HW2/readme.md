@@ -24,6 +24,18 @@ This API allows users to perform CRUD operations on hotel records, including cre
 - MongoDB Atlas
 - Mongoose
 
+## Folder Structure
+
+```text
+├── db
+│   └── db.connect.js
+├── models
+│   └── hotel.models.js
+├── index.js
+├── package.json
+└── package-lock.json
+```
+
 ## API Endpoints
 
 | Method | Endpoint | Description |
