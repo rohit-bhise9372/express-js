@@ -49,7 +49,7 @@ git clone <your-repository-link>
 2. Install dependencies
 
 ```bash
-npm install
+npm install express mongoose dotenv
 ```
 
 3. Create a `.env` file
