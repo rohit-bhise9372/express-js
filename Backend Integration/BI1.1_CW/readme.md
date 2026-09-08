@@ -38,16 +38,17 @@ This project demonstrates **Backend Integration** by connecting a **React (Vite)
 
 ```text
 BI1.1_CW/
-│
-├── backend/
-├── db
+backend/
+├── api/
+│   └── index.js
+├── db/
 │   └── db.connect.js
-├── models
+├── models/
 │   └── movie.models.js
-├── index.js
 ├── movies.json
 ├── package.json
-└── package-lock.json
+├── package-lock.json
+└── vercel.json
 │
 ├── frontend/
 │   ├── src/
