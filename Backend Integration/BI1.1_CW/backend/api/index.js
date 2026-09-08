@@ -1,206 +1,124 @@
 const express = require("express");
 const cors = require("cors");
 
-const app = express();
+const { initializeDatabase } = require("../db/db.connect");
+const Movie = require("../models/movie.models");
 
-const { initializeDatabase } = require("./db/db.connect");
-const Movie = require("./models/movie.models");
+const app = express();
 
 initializeDatabase();
 
-// CORS Configuration
-const corsOptions = {
-  origin: "*",
-  credentials: true,
-  optionSuccessStatus: 200,
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 
-// const newMovie = {
-//   title: "Dilwale Dulhania Le Jayenge",
-//   releaseYear: 1995,
-//   genre: ["Drama"],
-//   director: "Aditya Roy Chopra",
-//   actors: ["Actor1", "Actor2"],
-//   language: "Hindi",
-//   country: "India",
-//   rating: 6.1,
-//   plot: "A young man and woman fall in love on a Australia trip.",
-//   awards: "IFA Filmfare Awards",
-//   posterUrl: "https://example.com/new-poster1.jpg",
-//   trailerUrl: "https://example.com/new-trailer1.mp4",
-// };
+// Home Route
+app.get("/", (req, res) => {
+  res.json({ message: "Movie API is running 🚀" });
+});
 
-async function createMovie(newMovie) {
-  try {
-    const movie = new Movie(newMovie);
-    const saveMovie = await movie.save();
-    return saveMovie;
-  } catch (error) {
-    throw error;
-  }
-}
-
+// Create Movie
 app.post("/movies", async (req, res) => {
   try {
-    const savedMovie = await createMovie(req.body);
-    res
-      .status(201)
-      .json({ message: "Movie added successfully.", movie: savedMovie });
+    const movie = new Movie(req.body);
+    const savedMovie = await movie.save();
+
+    res.status(201).json({
+      message: "Movie added successfully.",
+      movie: savedMovie,
+    });
   } catch (error) {
     res.status(500).json({ error: "Failed to add movie" });
   }
 });
 
-// createMovie(newMovie)
-
-// find a movie with a particular title
-async function readMovieByTitle(movieTitle) {
+// Get All Movies
+app.get("/movies", async (req, res) => {
   try {
-    const movie = await Movie.findOne({ title: movieTitle });
-    return movie;
-  } catch (error) {
-    throw error;
-  }
-}
+    const movies = await Movie.find();
 
+    if (movies.length) {
+      res.json(movies);
+    } else {
+      res.status(404).json({ error: "No movies found." });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch movies." });
+  }
+});
+
+// Get Movie By Title
 app.get("/movies/:title", async (req, res) => {
   try {
-    const movie = await readMovieByTitle(req.params.title);
-    if (movie) {
-      res.json(movie);
-    } else {
-      res.status(404).json({ error: "Movie not found." });
-    }
+    const movie = await Movie.findOne({ title: req.params.title });
+
+    if (movie) res.json(movie);
+    else res.status(404).json({ error: "Movie not found." });
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch movie." });
   }
 });
 
-// to get all the movies in the database
-
-async function readAllMovies() {
-  try {
-    const allMovies = await Movie.find();
-    return allMovies;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-app.get("/movies", async (req, res) => {
-  try {
-    const movies = await readAllMovies(req, res);
-    if (movies.length != 0) {
-      res.json(movies);
-    } else {
-      res.status(404).json({ error: "No movies found." });
-    }
-  } catch (error) {
-    res.status(500).json({ error: "Failed to fetch movies." });
-  }
-});
-
-// get movie by director name
-async function readMovieByDirector(directorName) {
-  try {
-    const movieByDirector = await Movie.find({ director: directorName });
-    return movieByDirector;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
+// Get By Director
 app.get("/movies/director/:directorName", async (req, res) => {
   try {
-    const movies = await readMovieByDirector(req.params.directorName);
-    if (movies.length != 0) {
-      res.json(movies);
-    } else {
-      res.status(404).json({ error: "No movies found." });
-    }
+    const movies = await Movie.find({
+      director: req.params.directorName,
+    });
+
+    res.json(movies);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch movies." });
   }
 });
 
-async function readMovieByGenre(genreNAme) {
-  try {
-    const movieByGenre = await Movie.find({ genre: genreNAme });
-    return movieByGenre;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
+// Get By Genre
 app.get("/movies/genres/:genreName", async (req, res) => {
   try {
-    const movies = await readMovieByGenre(req.params.genreName);
-    if (movies.length != 0) {
-      res.json(movies);
-    } else {
-      res.status(404).json({ error: "No movies found." });
-    }
+    const movies = await Movie.find({
+      genre: req.params.genreName,
+    });
+
+    res.json(movies);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch movies." });
   }
 });
 
-async function deleteMovie(movieId) {
-  try {
-    const deletedMovie = await Movie.findByIdAndDelete(movieId);
-    return deletedMovie;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
+// Delete Movie
 app.delete("/movies/:movieId", async (req, res) => {
   try {
-    const deletedMovie = await deleteMovie(req.params.movieId);
+    const deletedMovie = await Movie.findByIdAndDelete(req.params.movieId);
+
     if (deletedMovie) {
-      res.status(200).json({ message: "Movie deleted successfully." });
+      res.json({ message: "Movie deleted successfully." });
+    } else {
+      res.status(404).json({ error: "Movie not found." });
     }
   } catch (error) {
     res.status(500).json({ error: "Failed to delete movie." });
   }
 });
 
-async function updateMovie(movieId, dataToUpdate) {
-  try {
-    const updatedMovie = await Movie.findByIdAndUpdate(movieId, dataToUpdate, {
-      new: true,
-    });
-    return updatedMovie;
-  } catch (error) {
-    throw error;
-  }
-}
-
+// Update Movie
 app.post("/movies/:movieId", async (req, res) => {
   try {
-    const updatedMovie = await updateMovie(req.params.movieId, req.body);
+    const updatedMovie = await Movie.findByIdAndUpdate(
+      req.params.movieId,
+      req.body,
+      { new: true }
+    );
 
     if (updatedMovie) {
-      res.status(200).json({
+      res.json({
         message: "Movie updated successfully.",
         movie: updatedMovie,
       });
     } else {
-      res.status(404).json({
-        error: "Movie not found.",
-      });
+      res.status(404).json({ error: "Movie not found." });
     }
   } catch (error) {
-    res.status(500).json({
-      error: "Failed to update movie.",
-    });
+    res.status(500).json({ error: "Failed to update movie." });
   }
 });
 
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on ${PORT}`);
-});
+module.exports = app;
